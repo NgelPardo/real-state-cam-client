@@ -9,24 +9,23 @@ import Image from "next/image";
 
 export default function HeroSection() {
   return (
-    <section className="relative min-h-screen flex flex-col justify-between bg-gradient-to-b from-[#f5f5ff] to-white">
-        {/* Imagen derecha */}
-      <div className="hidden md:block absolute -bottom-5 right-0 z-0 max-w-[700px]">
+    <section className="relative min-h-screen flex justify-between bg-gradient-to-b from-[#f5f5ff] to-white w-full">
+      <div className="hidden md:block absolute -bottom-0 right-0 z-0 max-w-[600px]">
         <Image
           src="/products/photography-with-natural__54037.jpeg"
           alt="house"
-          width={800}
+          width={600}
           height={500}
-          className="object-contain"
+          className="object-cover"
         />
       </div>
 
-      <div className="md:translate-x-25 relative z-10 grid grid-cols-1 md:grid-cols-2 gap-10 px-6 sm:px-8 md:px-16 py-12 md:py-20 container mx-auto">
+      <div className="md:translate-x-25 relative z-9 grid grid-cols-1 md:grid-cols-2 gap-10 px-6 sm:px-8 md:px-16 py-12 md:py-20 container mx-auto">
         <div>
           <Headline />
           <div className="mt-20 space-y-4">
             <SearchTabs />
-            <SearchBar />
+            <SearchBar/>
             <StatsSection />
           </div>
         </div>

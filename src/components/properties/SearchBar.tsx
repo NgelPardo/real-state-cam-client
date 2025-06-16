@@ -1,8 +1,10 @@
-import Link from 'next/link'
 import React from 'react'
 
-export default function SearchBar() {
+interface Props {
+  onSearch: (filters: { nombre: string; direccion: string; precio: string }) => void;
+}
 
+export default function SearchBar() {
   return (
     <div className="bg-white shadow-md rounded-b-xl p-4 flex flex-col md:flex-row items-stretch gap-4">
       
@@ -42,13 +44,10 @@ export default function SearchBar() {
 
       {/* Botón */}
       <div className="flex-none self-end md:self-center">
-        <Link href="/properties">
-          <button
-            className="bg-purple-600 hover:bg-purple-700 text-white px-6 py-2 rounded-lg transition mt-4.5"
-          >
-            Buscar propiedades
-          </button>
-        </Link>
+        <button
+          className="bg-purple-600 hover:bg-purple-700 text-white px-6 py-2 rounded-lg transition mt-4.5">
+          Buscar propiedades
+        </button>
       </div>
     </div>
   )

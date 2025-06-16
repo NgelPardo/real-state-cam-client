@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import FeatureItem from './FeatureItem';
+import Link from 'next/link';
 
 export default function FeatureSection() {
   return (
@@ -13,9 +14,11 @@ export default function FeatureSection() {
           <p className="text-gray-600 mb-4 px-10">
             Encuentra el lugar ideal para vivir entre más de 10.000 propiedades listadas.
           </p>
-          <button className="bg-blue-950 text-white px-10 py-2 rounded-lg hover:bg-blue-800 transition ml-10">
-            Ver propiedades
-          </button>
+          <Link href="/properties">
+            <button className="bg-blue-950 text-white px-10 py-2 rounded-lg hover:bg-blue-800 transition ml-10">
+              Ver propiedades
+            </button>
+          </Link>
 
           <div className="mt-6 relative overflow-hidden rounded-xl">
             <Image

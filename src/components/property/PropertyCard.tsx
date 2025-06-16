@@ -1,36 +1,28 @@
+import { Property } from '@/interfaces';
 import Image from 'next/image';
+import Link from 'next/link';
 
-type Props = {
-  title: string;
-  address: string;
-  price: string;
-  beds: number;
-  baths: number;
-  area: string;
-  image: string;
-  popular?: boolean;
-};
+interface Props {
+  property: Property;
+}
 
-export default function PropertyCard({ title, address, price, beds, baths, area, image, popular }: Props) {
+export const PropertyCard = ({ property }: Props) => {
   return (
     <div className="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-100 hover:shadow-lg transition">
       <div className="relative">
-        <Image src={image} alt={title} width={400} height={300} className="w-full h-48 object-cover" />
-        {popular && (
-          <span className="absolute top-2 left-2 bg-purple-600 text-white text-xs font-semibold px-2 py-1 rounded">
-            Popular
-          </span>
-        )}
+        <Link href={`/property/${property.id}`}>
+          <Image src={ property.image?.file } alt={ property.name } width={400} height={300} className="w-full h-48 object-cover" />
+        </Link>
       </div>
       <div className="p-4">
-        <p className="text-purple-600 font-bold">{price} <span className="text-gray-500 font-normal text-sm">/mes</span></p>
-        <h3 className="font-semibold text-blue-950">{title}</h3>
-        <p className="text-xs text-gray-500 mb-2">{address}</p>
+        <p className="text-purple-600 font-bold">{property.price}</p>
+        <Link href={`/property/${property.id}`} className="block mt-2 hover:underline">
+          <h3 className="font-semibold text-blue-950">{property.name}</h3>
+        </Link>
+        <p className="text-xs text-gray-500 mb-2">{property.address}</p>
 
         <div className="flex text-xs text-gray-500 gap-4">
-          <span>{beds} Beds</span>
-          <span>{baths} Bathrooms</span>
-          <span>{area}</span>
+          <span>{property.year} Year</span>
         </div>
       </div>
     </div>

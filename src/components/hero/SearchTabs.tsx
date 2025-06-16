@@ -2,7 +2,7 @@ import React from 'react'
 
 export default function SearchTabs() {
   return (
-    <div className="flex sm:flex-row gap-4 space-x-4 bg-white rounded-t-xl shadow-md w-fit mb-2 text-sm">
+    <div className="flex sm:flex-row gap-4 space-x-4 bg-white rounded-t-xl shadow-md w-fit mb-1 text-sm">
       {['Comprar', 'Vender'].map((label, idx) => (
         <button
           key={label}
