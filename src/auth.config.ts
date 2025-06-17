@@ -4,7 +4,7 @@ import Credentials from "next-auth/providers/credentials";
 import { z } from 'zod';
 import https from "https";
 
-const apiBaseUrl = process.env.API_URL;
+const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL;
 
 const credentialsSchema = z.object({
   email: z.string(),
@@ -12,7 +12,7 @@ const credentialsSchema = z.object({
 });
 
 const httpsAgent = new https.Agent({
-  rejectUnauthorized: false, // 👈 IGNORA certificados inválidos (solo para local)
+  rejectUnauthorized: false,
 });
 
 export const authConfig : NextAuthConfig = {
@@ -38,13 +38,9 @@ export const authConfig : NextAuthConfig = {
                     body: JSON.stringify({ email, password }),
                 });
 
-                console.log(response);
-
                 if (!response.ok) return null;
 
                 const result = await response.json();
-
-                console.log(result)
 
                 if (!result.isSuccess || !result.value?.token || !result.value?.user) return null;
 
