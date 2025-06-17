@@ -1,7 +1,9 @@
 'use client'
 
+import { logout } from '@/actions/auth/logout';
 import { useUiStore } from '@/store';
 import clsx from 'clsx';
+import { useSession } from 'next-auth/react';
 import Link from 'next/link'
 import { IoCloseOutline, IoHomeOutline, IoLogInOutline, IoLogOutOutline, IoPeopleOutline, IoPersonOutline, IoSearchOutline } from 'react-icons/io5'
 
@@ -9,6 +11,9 @@ export const Sidebar = () => {
 
     const isSideMenuOpen = useUiStore( state => state.isSideMenuOpen );
     const closeSideMenu = useUiStore( state => state.closeSideMenu );
+
+    const { data: session } = useSession();
+    const isAuthenticated = !!session?.user;
 
   return (
     <div>
@@ -50,45 +55,70 @@ export const Sidebar = () => {
 
                 {/* Menu */}
 
-                <Link
-                    href="/"
-                    className='flex items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all'
-                >
-                    <IoPersonOutline size={20}/>
-                    <span className='ml-3 text'>Perfil</span>
-                </Link>
-                <Link
-                    href="/"
-                    className='flex items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all'
-                >
-                    <IoLogInOutline size={20}/>
-                    <span className='ml-3 text'>Ingresar</span>
-                </Link>
-                <Link
-                    href="/"
-                    className='flex items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all'
-                >
-                    <IoLogOutOutline size={20}/>
-                    <span className='ml-3 text'>Salir</span>
-                </Link>
+                {
+                    isAuthenticated && (
+                    <Link
+                        href="/admin/profile"
+                        onClick={ closeSideMenu }
+                        className='flex items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all'
+                    >
+                        <IoPersonOutline size={20}/>
+                        <span className='ml-3 text'>Perfil</span>
+                    </Link>
+                    )
+                }
+                {
+                    isAuthenticated && (
+                        <Link
+                            href="/"
+                            onClick={ logout }
+                            className='flex items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all'
+                        >
+                            <IoLogOutOutline size={20}/>
+                            <span className='ml-3 text'>Salir</span>
+                        </Link>
+                    )
+                }
+                {
+                    !isAuthenticated && (
+                        <Link
+                            href="/auth/login"
+                            onClick={ closeSideMenu }
+                            className='flex items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all'
+                        >
+                            <IoLogInOutline size={20}/>
+                            <span className='ml-3 text'>Ingresar</span>
+                        </Link>
+                    )
+                }
+
 
                 <div className='w-full h-px bg-gray-200 my-10'></div>
 
-                <Link
-                    href="/"
-                    className='flex items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all'
-                >
-                    <IoHomeOutline size={20}/>
-                    <span className='ml-3 text'>Propiedades</span>
-                </Link>
-                <Link
-                    href="/"
-                    className='flex items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all'
-                >
-                    <IoPeopleOutline size={20}/>
-                    <span className='ml-3 text'>Propietarios</span>
-                </Link>
-
+                {
+                    isAuthenticated && (
+                    <Link
+                        href="/admin/properties"
+                        onClick={ closeSideMenu }
+                        className='flex items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all'
+                    >
+                        <IoHomeOutline size={20}/>
+                        <span className='ml-3 text'>Propiedades</span>
+                    </Link>
+                    )
+                }
+                {
+                    isAuthenticated && (
+                    <Link
+                        href="/admin/owners"
+                        onClick={ closeSideMenu }
+                        className='flex items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all'
+                    >
+                        <IoPeopleOutline size={20}/>
+                        <span className='ml-3 text'>Propietarios</span>
+                    </Link>
+                    )
+                }
             </nav>
         </div>
   )

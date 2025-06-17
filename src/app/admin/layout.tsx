@@ -1,8 +1,8 @@
 import Image from 'next/image';
 import { Sidebar, TopMenu } from '@/components';
-import { SessionProvider } from "next-auth/react";
+import { SessionProvider } from 'next-auth/react';
 
-export default function ClientLayout({ children }: {
+export default function AdminLayout({ children }: {
  children: React.ReactNode;
 }) {
   return (
@@ -13,7 +13,7 @@ export default function ClientLayout({ children }: {
         <SessionProvider>
           <Sidebar />
         </SessionProvider>
-        { children }
+          { children }
       </div>
     </main>
   );
