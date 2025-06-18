@@ -2,8 +2,11 @@
 
 import { Property } from "@/interfaces";
 import { createProperty, updateProperty } from "@/services";
+import { getValidImageSrc } from "@/utils/getValidImageSrc";
+import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export type PropertyForm = Omit<Property, 'id'>;
 
@@ -20,9 +23,25 @@ export default function PropertyForm({ property }: Props) {
         codeInternal: property?.codeInternal ?? '',
         year: property?.year ?? '',
         idOwner: property?.idOwner ?? '',
+        image: ''
     } as PropertyForm);
 
     const isEdit = !!property;
+    const imageSrc = isEdit ? getValidImageSrc(property.image) : null;
+
+    useEffect(() => {
+      if (property) {
+        setForm({
+          name: property.name,
+          address: property.address,
+          price: property.price,
+          codeInternal: property.codeInternal ?? '',
+          year: property.year,
+          idOwner: property.idOwner,
+          image: ''
+        });
+      }
+    }, [property]);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -101,7 +120,32 @@ export default function PropertyForm({ property }: Props) {
             className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
             value={form.idOwner} onChange={handleChange} />
         </div>
+        {isEdit && (
+          <>
+          <div>
+            <span>Imagen</span>            
+            <Image
+              src={property.image ? property.image : '/imgs/houseAvatar.png'}
+              alt={property.name}
+              width={70}
+              height={70}
+              className="rounded"
+            />
+            <Link
+              href={`/property-image/${property.id}`}
+            >
+              <button 
+                className="hover:shadow-form rounded-md bg-purple-600 py-3 px-8 text-center text-base font-semibold text-white outline-none mt-4"
+              >
+                Actualizar imagen
+              </button>
+            </Link>
+          </div>
+          <hr className="mt-2"/>
+          </>
+        )}
         <button 
+            disabled = { isEdit }
             className="hover:shadow-form rounded-md bg-purple-600 py-3 px-8 text-center text-base font-semibold text-white outline-none mt-4"
             type="submit">{property ? "Guardar Cambios" : "Crear Propiedad"}</button>
       </form>

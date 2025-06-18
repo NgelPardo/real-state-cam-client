@@ -7,7 +7,8 @@ export interface Property {
     codeInternal: string;
     year: string;
     idOwner: string;
-    image: PropertyImage;
+    ownerName?: string;
+    image: string;
 }
 
 export interface PropertyImage {

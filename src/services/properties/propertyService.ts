@@ -9,8 +9,8 @@ export const getProperties = async () => {
 };
 
 export const getPropertyById = async (id: string) => {
-  const res = await fetchClient<{ value: Property }>(`${apiBaseUrl}/api/properties/${id}`);
-  return res.value;
+  const res = await fetchClient<Property>(`${apiBaseUrl}/api/properties/${id}`);
+  return res;
 };
 
 export const createProperty = async (data: Omit<Property, "id">) => {

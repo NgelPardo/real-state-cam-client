@@ -2,6 +2,8 @@
 
 import { Property } from "@/interfaces";
 import { getProperties } from "@/services";
+import { getValidImageSrc } from "@/utils/getValidImageSrc";
+import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
@@ -29,7 +31,7 @@ export default function page() {
     <div className="p-10">
       <div className="flex justify-end mb-5">
         <Link href="/admin/property/new" className="m-2 p-2 rounded-md transition-all bg-purple-600 text-white">
-          Nuevo Propiedad
+          Nueva Propiedad
         </Link>
       </div>
 
@@ -82,25 +84,31 @@ export default function page() {
             </tr>
           </thead>
           <tbody>
-            {properties.map((property) => (
+            {properties.map((property) => {
+              const imageSrc = getValidImageSrc(property.image);
+
+              return (
               <tr
                 key={property.id}
                 className="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100"
               >
                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                  {/* <Link href={`/product/${product.slug}`}>
-                    <ProductImage
-                      src={ product.ProductImage[0]?.url }
-                      width={80}
-                      height={80}
-                      alt={product.title}
-                      className="w-20 h-20 object-cover rounded"
-                    />
-                  </Link> */}
-                  <span>imagen</span>
+                  <Link href={`/admin/property/${property.id}`}>
+                    {imageSrc && (
+                      <Image
+                        src={imageSrc}
+                        alt={property.name}
+                        width={70}
+                        height={70}
+                        className="rounded"
+                      />
+                    )}
+                  </Link>
                 </td>
                 <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                <Link href={`/admin/property/${property.id}`}>
                   {property.name}
+                </Link>
                 </td>
                 <td className="text-sm font-bold  text-gray-900 px-6 py-4 whitespace-nowrap">
                   {property.address}
@@ -122,7 +130,8 @@ export default function page() {
                   <span>propietario</span>
                 </td>
               </tr>
-            ))}
+              );
+            })}
           </tbody>
         </table>
       </div>
