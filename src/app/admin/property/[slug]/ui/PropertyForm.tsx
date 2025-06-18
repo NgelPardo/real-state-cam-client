@@ -50,7 +50,6 @@ export default function PropertyForm({ property }: Props) {
 
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
-
         try {
             const savedProperty = isEdit
             ? await updateProperty(property!.id, form)

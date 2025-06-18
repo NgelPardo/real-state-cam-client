@@ -26,7 +26,23 @@ export default function PropertyImageForm({ propertyImage }: Props) {
                 enabled: propertyImage.enabled
             });
         }
-    }, [propertyImage])
+    }, [propertyImage]);
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = e.target;
+        setForm({ ...form, [name]: value });
+    };
+
+    const handleSubmit = async (event: React.FormEvent) => {
+        event.preventDefault();
+        try {
+            await createPropertyImage(form);   
+            
+            router.push('/admin/properties');
+        } catch (error) {
+            console.error("Error al guardar la propiedad:", error);
+        }
+    }
 
   return (
     <div>PropertyImageForm</div>

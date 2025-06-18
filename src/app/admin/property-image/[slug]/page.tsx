@@ -16,6 +16,10 @@ export default async function PropertyImagePage({ params }: Props) {
     }
 
   return (
-    <div>page</div>
+    <div className="min-h-screen flex items-center justify-center px-4">
+        <div className="w-full max-w-xl bg-white p-6 rounded-xl shadow-md">
+            <PropertyImagePage propertyImage={propertyImage} />
+        </div>
+    </div>
   )
 }
