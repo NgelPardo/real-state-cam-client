@@ -1,7 +1,7 @@
 'use client';
 
-import { Property } from "@/interfaces";
-import { createProperty, updateProperty } from "@/services";
+import { Owner, Property } from "@/interfaces";
+import { createProperty, getOwners, updateProperty } from "@/services";
 import { getValidImageSrc } from "@/utils/getValidImageSrc";
 import Image from "next/image";
 import Link from "next/link";
@@ -16,6 +16,8 @@ interface Props {
 
 export default function PropertyForm({ property }: Props) {
     const router = useRouter();
+    const [loading, setLoading] = useState(true);
+    const [owners, setOwners] = useState<Owner[]>([]);
     const [form, setForm] = useState<PropertyForm>({
         name: property?.name ?? '',
         address: property?.address ?? '',
@@ -43,7 +45,21 @@ export default function PropertyForm({ property }: Props) {
       }
     }, [property]);
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    useEffect(() => {
+      const loadOwners = async () => {
+        try {
+          const data = await getOwners();
+          setOwners(data);
+        } catch (error) {
+          console.error('Error cargando propietarios', error);
+        } finally {
+          setLoading(false);
+        }
+      };
+      loadOwners();
+    }, []);
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const { name, value } = e.target;
         setForm({ ...form, [name]: value });
     };
@@ -111,13 +127,21 @@ export default function PropertyForm({ property }: Props) {
             value={form.year} onChange={handleChange} />
         </div>
         <div>
-          <label htmlFor="owner">Propietario</label>
-          <input 
-            type="text" 
-            id="owner" 
+          <label htmlFor="idProperty" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">Propietario</label>
+          <select 
+            id="idProperty" 
             name="idOwner"
-            className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
-            value={form.idOwner} onChange={handleChange} />
+            value={form.idOwner}
+            onChange={handleChange}
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+              {
+                owners.map((owner) => (
+                  <option key={owner.id} value={owner.id}>
+                    {owner.name}
+                  </option>
+                ))
+              }
+          </select>
         </div>
         {isEdit && (
           <>
@@ -131,7 +155,7 @@ export default function PropertyForm({ property }: Props) {
               className="rounded"
             />
             <Link
-              href={`/property-image/${property.id}`}
+              href={`/admin/property-image/${property.id}`}
             >
               <button 
                 className="hover:shadow-form rounded-md bg-purple-600 py-3 px-8 text-center text-base font-semibold text-white outline-none mt-4"

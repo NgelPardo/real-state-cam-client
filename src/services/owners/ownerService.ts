@@ -9,8 +9,8 @@ export const getOwners = async () => {
 };
 
 export const getOwnerById = async (id: string) => {
-  const res = await fetchClient<{ value: Owner }>(`${apiBaseUrl}/api/owners/${id}`);
-  return res.value;
+  const res = await fetchClient< Owner >(`${apiBaseUrl}/api/owners/${id}`);
+  return res;
 };
 
 export const createOwner = async (data: Omit<Owner, "id">) => {

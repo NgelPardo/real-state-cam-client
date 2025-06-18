@@ -12,8 +12,8 @@ export interface Property {
 }
 
 export interface PropertyImage {
-    id: string;
+    id?: string;
     idProperty: string;
-    file: string;
+    file: File | string;
     enabled: boolean;
 }

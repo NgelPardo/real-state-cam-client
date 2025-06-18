@@ -53,8 +53,6 @@ export default function OwnerForm({ owner }: Props) {
                 photo: selectedFile || '',
             };
 
-            console.log(finalForm);
-
             const savedOwner = isEdit
             ? await updateOwner(owner!.id, finalForm)
             : await createOwner(finalForm);   

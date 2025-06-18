@@ -28,3 +28,23 @@ export const updateProperty = async (id: string, data: Partial<Property>) => {
   });
   return res.value;
 };
+
+export const getPropertiesByFilters = async (filters: {
+  name?: string;
+  address?: string;
+  minPrice?: number;
+  maxPrice?: number;
+}) => {
+  const params = new URLSearchParams();
+
+  if (filters.name) params.append("name", filters.name);
+  if (filters.address) params.append("address", filters.address);
+  if (filters.minPrice !== undefined) params.append("minPrice", filters.minPrice.toString());
+  if (filters.maxPrice !== undefined) params.append("maxPrice", filters.maxPrice.toString());
+
+  const res = await fetchClient< Property[] >(
+    `${apiBaseUrl}/api/properties/filter?${params.toString()}`
+  );
+
+  return res;
+};

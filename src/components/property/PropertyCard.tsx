@@ -7,11 +7,13 @@ interface Props {
 }
 
 export const PropertyCard = ({ property }: Props) => {
+
+
   return (
     <div className="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-100 hover:shadow-lg transition">
       <div className="relative">
         <Link href={`/property/${property.id}`}>
-          <Image src={ property.image?.file } alt={ property.name } width={400} height={300} className="w-full h-48 object-cover" />
+          <Image src={ property.image } alt={ property.name } width={400} height={300} className="w-full h-48 object-cover" />
         </Link>
       </div>
       <div className="p-4">

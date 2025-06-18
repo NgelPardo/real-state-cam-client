@@ -2,6 +2,7 @@ import { titleFont } from "@/config/fonts";
 import Image from 'next/image';
 import { initialData } from "@/seed";
 import { notFound } from "next/navigation";
+import { getPropertyById } from "@/services";
 
 interface Props {
   params: {
@@ -9,10 +10,10 @@ interface Props {
   }
 }
 
-export default function({ params }: Props) {
+export default async function({ params }: Props) {
   
   const { slug } = params;
-  const property = initialData.properties.find((property) => property.id === slug);
+  const property = await getPropertyById(slug);
 
   if (!property) {
     notFound();
@@ -22,7 +23,7 @@ export default function({ params }: Props) {
     <div className="mt-5 mb-20 grid grid-cols-1 md:grid-cols-3 gap-3">
       {/* Slideshow */}
       <div className="relative h-112 col-span-1 md:col-span-2">
-        <Image src={ property.image?.file } alt={ property.name } fill className="object-cover rounded-lg"/>
+        <Image src={ property.image } alt={ property.name } fill className="object-cover rounded-lg"/>
       </div>
 
       {/* Detalles */}
